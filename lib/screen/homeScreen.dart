@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:api_calling/model/api_calling.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
@@ -11,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<ApiCalling> testingApiCalling = [];
+  RxList<ApiCalling> testingApiCalling = <ApiCalling>[].obs;
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +21,18 @@ class _HomeScreenState extends State<HomeScreen> {
         future: fetchData(),
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: testingApiCalling.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(testingApiCalling[index].title.toString()),
-                  subtitle: Image.network(testingApiCalling[index].thumbnailUrl.toString()),
-                );
-              },
-            );
+            return Obx(() {
+              return ListView.builder(
+                itemCount: testingApiCalling.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(testingApiCalling[index].title.toString()),
+                    subtitle: Image.network(
+                        testingApiCalling[index].thumbnailUrl.toString()),
+                  );
+                },
+              );
+            });
           } else {
             return const Center(
               child: CircularProgressIndicator(),
@@ -47,7 +51,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (response.statusCode == 200) {
       for (Map<String, dynamic> index in data) {
-        testingApiCalling.add(ApiCalling.fromJson(index));
+        testingApiCalling
+            .addAll(data.map((index) => ApiCalling.fromJson(index)).toList());
       }
       return testingApiCalling;
     } else {

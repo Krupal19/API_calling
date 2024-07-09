@@ -1,8 +1,6 @@
+import 'package:api_calling/controllers/rss_feed_controller.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:xml2json/xml2json.dart';
-
+import 'package:get/get.dart';
 
 class GetxApiScreen extends StatefulWidget {
   const GetxApiScreen({super.key});
@@ -12,68 +10,56 @@ class GetxApiScreen extends StatefulWidget {
 }
 
 class _GetxApiScreenState extends State<GetxApiScreen> {
+  final RssFeedController rssFeedController = Get.put(RssFeedController());
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 16),
-        child: ListView.builder(
-          itemCount: 1,
-          itemBuilder: (context, index) {
-            // if (snapshot.hasData){
-            // } else {
-            //             return const Center(
-            //               child: CircularProgressIndicator(),
-            //             );
-            //           }
-            return Container(
-              decoration: BoxDecoration(
-                color: const Color(0xE3E2E8F3),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: Color(0xA58A99A2),
-                  width: 2,
-                ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(0),
-                      bottomRight: Radius.circular(0),
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                    ),
-                    child: Image.network(
-                      "src",
-                      fit: BoxFit.contain,
+        child: Obx(
+          () {
+            return ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xE3E2E8F3),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: const Color(0xA58A99A2),
+                      width: 2,
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
-                    child: Text(
-                      "widget.title!",
-                    ),
-                  ),
-                  const Align(
-                    alignment: AlignmentDirectional(-1, 0),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(16, 8, 0, 16),
-                      child: Text(
-                        "widget.dateTime!",
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(0),
+                          bottomRight: Radius.circular(0),
+                          topLeft: Radius.circular(8),
+                          topRight: Radius.circular(8),
+                        ),
+                        child: Image.network(
+                          "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg",
+                          fit: BoxFit.contain,
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
             );
           },
         ),
       ),
     );
   }
-
-  Future<List<dynamic>> xmlToJson() async {}
 }
