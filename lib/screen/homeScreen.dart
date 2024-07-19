@@ -51,8 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (response.statusCode == 200) {
       for (Map<String, dynamic> index in data) {
-        testingApiCalling
-            .addAll(data.map((index) => ApiCalling.fromJson(index)).toList());
+        testingApiCalling.add(ApiCalling.fromJson(index));
       }
       return testingApiCalling;
     } else {
